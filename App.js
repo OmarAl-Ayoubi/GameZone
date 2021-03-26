@@ -1,21 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import * as Font from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AppLoading from "expo-app-loading";
+import Navigator from "./routes/drawer";
+
+const getFont = () =>
+  Font.loadAsync({
+    "merriweather-black": require("./assets/Fonts/Merriweather-Black.ttf"),
+    "merriweather-bold": require("./assets/Fonts/Merriweather-Bold.ttf"),
+  });
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  if (fontsLoaded) {
+    return (
+      <SafeAreaView style={{ flex: 1 }} forceInset={{ top: "never" }}>
+        <Navigator />
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <AppLoading
+        startAsync={getFont}
+        onFinish={() => {
+          setFontsLoaded(true);
+        }}
+        onError={console.warn}
+      />
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
