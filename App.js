@@ -14,7 +14,13 @@ export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   if (fontsLoaded) {
     return (
-      <SafeAreaView style={{ flex: 1 }} forceInset={{ top: "never" }}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: "#eee",
+        }}
+        forceInset={{ top: "never" }}
+      >
         <Navigator />
       </SafeAreaView>
     );

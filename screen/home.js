@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Button, Modal } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  Modal,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { globalStyles } from "../styles/global";
 import Card from "../shared/card";
@@ -14,7 +22,13 @@ export default function Home({ navigation }) {
     { title: "Dota 2", rating: 5, body: "ssss", key: "2" },
     { title: "LOL", rating: 1, body: "ssss", key: "3" },
   ]);
-
+  const addReview = (review) => {
+    review.key = Math.random().toString();
+    setReviews((currentReviews) => {
+      return [review, ...currentReviews];
+    });
+    SetModalOpen(false);
+  };
   // const pressHandler = () => {
   //   navigation.navigate("ReviewDetails");
   // };
@@ -22,19 +36,21 @@ export default function Home({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <Modal visible={modalOpen} animationType="slide">
-        <SafeAreaView style={styles.modalContent}>
-          <View style={styles.modalContent}>
-            <MaterialIcons
-              name="close"
-              size={24}
-              style={{ ...styles.modalToggle, ...styles.modalClose }}
-              onPress={() => SetModalOpen(false)}
-            />
-            <View style={{ flex: 1 }}>
-              <ReviewForm />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <SafeAreaView style={styles.modalContent}>
+            <View style={styles.modalContent}>
+              <MaterialIcons
+                name="close"
+                size={24}
+                style={{ ...styles.modalToggle, ...styles.modalClose }}
+                onPress={() => SetModalOpen(false)}
+              />
+              <View style={{ flex: 1 }}>
+                <ReviewForm addReview={addReview} />
+              </View>
             </View>
-          </View>
-        </SafeAreaView>
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
       </Modal>
 
       <MaterialIcons
